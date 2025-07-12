@@ -8,6 +8,12 @@ export const store = configureStore({
     auth: authReducer,
     theme: themeReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ['auth/checkAuth/fulfilled'],
+      },
+    }),
 });
 
 // Check authentication when the store is created

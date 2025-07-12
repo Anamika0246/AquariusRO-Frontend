@@ -11,19 +11,20 @@ const initialState = {
 // Check if token is valid and fetch user data
 export const checkAuth = createAsyncThunk(
   'auth/checkAuth',
-  async (_, { dispatch, getState }) => {
+  async (_, { dispatch, getState, rejectWithValue }) => {
     const token = getState().auth.token;
     if (!token) return null;
 
     try {
-      const response = await axios.get('/api/auth/me', {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/auth/me`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      localStorage.setItem('user', JSON.stringify(response.data.user));
       return response.data;
     } catch (error) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      return null;
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -32,7 +33,7 @@ export const login = createAsyncThunk(
   'auth/login',
   async (credentials, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/api/auth/login', credentials);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/login`, credentials);
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
       return response.data;
@@ -46,7 +47,7 @@ export const register = createAsyncThunk(
   'auth/register',
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/api/auth/register', userData);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/register`, userData);
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
       return response.data;
