@@ -19,16 +19,28 @@ export const checkAuth = createAsyncThunk(
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/auth/me`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      
+      // Ensure user object has all required fields
+      const user = {
+        ...response.data.user,
+        isAdmin: response.data.user.role === 'admin' || false
+      };
+      
       dispatch(setCredentials({
-        user: response.data.user,
+        user,
         token
       }));
+      
+      // Update localStorage with the latest user data
+      localStorage.setItem('user', JSON.stringify(user));
+      
       return response.data;
     } catch (error) {
+      console.error('Auth check failed:', error);
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       dispatch(logout());
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response?.data || { message: 'Authentication failed' });
     }
   }
 );
@@ -38,12 +50,25 @@ export const login = createAsyncThunk(
   async (credentials, { dispatch, rejectWithValue }) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/login`, credentials);
+      
+      // Ensure user object has all required fields
+      const user = {
+        ...response.data.user,
+        isAdmin: response.data.user.role === 'admin' || false
+      };
+      
       dispatch(setCredentials({
         token: response.data.token,
-        user: response.data.user
+        user
       }));
+      
+      // Update localStorage with the latest user data
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(user));
+      
       return response.data;
     } catch (error) {
+      console.error('Login failed:', error);
       return rejectWithValue({
         message: error.response?.data?.message || 'Login failed',
         status: error.response?.status || 500
@@ -72,13 +97,28 @@ export const register = createAsyncThunk(
 // Admin login
 export const adminLogin = createAsyncThunk(
   'auth/adminLogin',
-  async (credentials, { rejectWithValue }) => {
+  async (credentials, { dispatch, rejectWithValue }) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/login`, credentials);
+      
+      // Ensure user object has all required fields
+      const user = {
+        ...response.data.user,
+        isAdmin: true
+      };
+      
+      dispatch(setCredentials({
+        token: response.data.token,
+        user
+      }));
+      
+      // Update localStorage with the latest user data
       localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
+      localStorage.setItem('user', JSON.stringify(user));
+      
       return response.data;
     } catch (error) {
+      console.error('Admin login failed:', error);
       return rejectWithValue({
         message: error.response?.data?.message || 'Admin login failed',
         status: error.response?.status || 500
