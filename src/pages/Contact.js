@@ -1,51 +1,59 @@
 import React from 'react';
 import { PhoneIcon, EnvelopeIcon, MapPinIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
+import { motion } from 'framer-motion';
 
 const Contact = () => {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-800">
+    <div className="min-h-screen bg-white dark:bg-gray-800 relative overflow-hidden">
       <div className="container mx-auto px-4 py-16">
-        <h1 className="text-3xl font-bold mb-8">Contact Us</h1>
+        <motion.h1 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="pt-10 text-5xl font-bold mb-12 text-center bg-gradient-to-r from-aquarius-dark via-aquarius-light to-aquarius-dark bg-clip-text text-transparent"
+        >
+          Contact Us
+        </motion.h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* Contact Info */}
-          <div className="bg-white dark:bg-gray-700 rounded-lg shadow-lg p-8">
-            <h2 className="text-2xl font-semibold mb-6">Get in Touch</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        {/* Contact Info */}
+        <div className="bg-gradient-to-br from-aquarius-light/80 to-aquarius-dark/80 text-white rounded-3xl shadow-xl p-10 flex flex-col justify-center">
+            <h2 className="text-2xl font-bold mb-6 text-center">Get in Touch</h2>
             <div className="space-y-6">
-              <div className="flex items-center">
-                <PhoneIcon className="h-6 w-6 text-aquarius-dark mr-4" />
+              <div className="flex items-center gap-4">
+                <PhoneIcon className="h-7 w-7" />
                 <div>
                   <h3 className="font-semibold">Phone</h3>
-                  <p className="text-gray-600 dark:text-gray-400">+91 1234567890</p>
+                  <p className="text-white/80">+91 1234567890</p>
                 </div>
               </div>
-              <div className="flex items-center">
-                <EnvelopeIcon className="h-6 w-6 text-aquarius-dark mr-4" />
+              <div className="flex items-center gap-4">
+                <EnvelopeIcon className="h-7 w-7" />
                 <div>
                   <h3 className="font-semibold">Email</h3>
-                  <p className="text-gray-600 dark:text-gray-400">info@aquariusro.com</p>
+                  <p className="text-white/80">info@aquariusro.com</p>
                 </div>
               </div>
-              <div className="flex items-center">
-                <MapPinIcon className="h-6 w-6 text-aquarius-dark mr-4" />
+              <div className="flex items-center gap-4">
+                <MapPinIcon className="h-7 w-7" />
                 <div>
                   <h3 className="font-semibold">Location</h3>
-                  <p className="text-gray-600 dark:text-gray-400">Near IIT Kanpur, Uttar Pradesh</p>
+                  <p className="text-white/80">Near IIT Kanpur, Uttar Pradesh</p>
                 </div>
               </div>
-              <div className="flex items-center">
-                <GlobeAltIcon className="h-6 w-6 text-aquarius-dark mr-4" />
+              <div className="flex items-center gap-4">
+                <GlobeAltIcon className="h-7 w-7" />
                 <div>
                   <h3 className="font-semibold">Business Hours</h3>
-                  <p className="text-gray-600 dark:text-gray-400">Mon - Fri: 9:00 AM - 6:00 PM</p>
+                  <p className="text-white/80">Mon - Fri: 9:00 AM - 6:00 PM</p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Contact Form */}
-          <div className="bg-white dark:bg-gray-700 rounded-lg shadow-lg p-8">
-            <h2 className="text-2xl font-semibold mb-6">Send us a Message</h2>
+          <div className="bg-white dark:bg-gray-700 rounded-3xl shadow-xl p-10">
+            <h2 className="text-2xl font-bold mb-6 text-aquarius-dark dark:text-aquarius-light text-center">Send us a Message</h2>
             <form className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
@@ -73,7 +81,7 @@ const Contact = () => {
               </div>
               <button
                 type="submit"
-                className="w-full bg-aquarius-dark text-white py-3 rounded-md hover:bg-aquarius-light transition duration-300"
+                className="w-full bg-gradient-to-r from-aquarius-dark via-aquarius-light to-aquarius-dark text-white py-3 rounded-md hover:scale-105 transition duration-300 font-semibold shadow-lg"
               >
                 Send Message
               </button>

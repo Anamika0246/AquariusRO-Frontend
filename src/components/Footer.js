@@ -2,21 +2,36 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { PhoneIcon, EnvelopeIcon, MapPinIcon } from '@heroicons/react/24/outline';
 
+
 const Footer = () => {
   return (
-    <footer className="bg-aquarius-dark text-white">
+    <footer className="bg-aquarius-dark text-white relative overflow-hidden">
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
+          
           <div>
-            <h3 className="text-xl font-semibold mb-4">Aquarius RO</h3>
+            <div className="flex items-center space-x-4 mb-4">
+            <img
+                className="h-12 w-auto object-contain block dark:hidden"
+                src="LOGO.svg"
+                alt="Aquarius RO Logo"
+            />
+            <img
+                className="h-12 w-auto object-contain hidden dark:block"
+                src="LOGO-DARK.svg"
+                alt="Aquarius RO Logo Dark"
+            />
+
+              <h3 className="text-xl font-semibold">Aquarius RO</h3>
+            </div>
             <p className="text-gray-300 mb-4">
               Providing pure and safe drinking water to homes and offices.
             </p>
             <div className="space-y-2">
               <p className="flex items-center text-gray-300">
                 <PhoneIcon className="h-5 w-5 mr-2" />
-                +91 1234567890
+                +91 7985220732
               </p>
               <p className="flex items-center text-gray-300">
                 <MapPinIcon className="h-5 w-5 mr-2" />
@@ -24,7 +39,7 @@ const Footer = () => {
               </p>
               <p className="flex items-center text-gray-300">
                 <EnvelopeIcon className="h-6 w-6 text-aquarius-dark mr-4" />
-                info@aquariusro.com
+                aquarius.ro.anujrai@gmail.com
               </p>
             </div>
           </div>
@@ -66,25 +81,24 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Newsletter */}
+          {/* Feedback */}
           <div>
-            <h3 className="text-xl font-semibold mb-4">Newsletter</h3>
+            <h3 className="text-xl font-semibold mb-4">Feedback</h3>
             <p className="text-gray-300 mb-4">
-              Subscribe to our newsletter for updates and special offers.
+              Share your thoughts and suggestions with us.
             </p>
-            <form className="flex flex-col space-y-2">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="px-4 py-2 rounded-md bg-gray-800 text-white"
-              />
-              <button
-                type="submit"
-                className="bg-aquarius-light text-white px-4 py-2 rounded-md hover:bg-aquarius-dark transition duration-300"
+            <div className="flex flex-col space-y-2">
+              <div className="flex items-center text-gray-300">
+                <EnvelopeIcon className="h-6 w-6 mr-3" />
+                <span>Send us an email at:</span>
+              </div>
+              <a
+                href="mailto:aquarius.ro.anujrai@gmail.com"
+                className="text-blue-400 hover:text-blue-500 transition duration-300"
               >
-                Subscribe
-              </button>
-            </form>
+                aquarius.ro.anujrai@gmail.com
+              </a>
+            </div>
           </div>
         </div>
 

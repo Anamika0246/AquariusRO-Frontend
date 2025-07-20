@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../slices/authSlice';
 import { Link } from 'react-router-dom';
+import { store } from '../../store';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -26,7 +27,14 @@ const Login = () => {
 
     try {
       await dispatch(login(formData));
-      navigate('/');
+      const state = store.getState();
+      const user = state.auth.user;
+      
+      if (user && user.isAdmin) {
+        navigate('/admin/dashboard');
+      } else {
+        navigate('/');
+      }
     } catch (err) {
       setError(err.message);
     }
@@ -34,8 +42,8 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-800">
-      <div className="container mx-auto px-4 py-16">
-        <div className="max-w-md mx-auto">
+      <div className="container mx-auto px-7 py-16">
+        <div className="max-w-md mx-auto mt-5">
           <div className="bg-white dark:bg-gray-700 rounded-lg shadow-lg p-8">
             <h1 className="text-3xl font-bold mb-8 text-center">Login</h1>
 

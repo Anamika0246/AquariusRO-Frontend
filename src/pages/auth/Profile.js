@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCredentials } from '../../slices/authSlice';
-import { Link } from 'react-router-dom';
+import { setCredentials, logout } from '../../slices/authSlice';
+import { Link, useNavigate } from 'react-router-dom';
 import { CogIcon } from '@heroicons/react/24/outline';
 
 const Profile = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
+  const token = useSelector((state) => state.auth.token);
   const [formData, setFormData] = useState({
     name: user?.name || '',
     email: user?.email || '',
@@ -15,6 +17,22 @@ const Profile = () => {
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+
+  useEffect(() => {
+    // Check if user is logged in
+    if (!token || !user) {
+      navigate('/login', { replace: true });
+      return;
+    }
+
+    // Update form data when user state changes
+    setFormData({
+      name: user?.name || '',
+      email: user?.email || '',
+      mobileNumber: user?.mobileNumber || '',
+      address: user?.address || '',
+    });
+  }, [user, token, navigate]);
 
   const handleChange = (e) => {
     setFormData({
@@ -47,6 +65,17 @@ const Profile = () => {
                 <p className="text-gray-600 dark:text-gray-400">
                   Manage your account information
                 </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    dispatch(logout());
+                    navigate('/login');
+                  }}
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 transition duration-200"
+                >
+                  Logout
+                </button>
               </div>
               <div className="flex items-center space-x-4">
                 <Link
